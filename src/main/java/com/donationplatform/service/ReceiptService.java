@@ -32,4 +32,10 @@ public class ReceiptService {
     public Receipt getByDonationId(Long donationId) {
         return receiptRepository.findByDonationId(donationId);
     }
+
+    // Retourne le PDF en byte[] pour téléchargement
+    public byte[] getPdfBytes(Long donationId) {
+        Receipt receipt = getByDonationId(donationId);
+        return pdfGenerator.getPdfBytes(receipt.getFilePath());
+    }
 }

@@ -37,4 +37,8 @@ public class CampaignService {
     public List<Campaign> getActiveCampaigns() {
         return campaignRepository.findByStatut(CampaignStatus.ACTIVE);
     }
+
+    public long countAll() {
+        return campaignRepository.count();
+    }
 }

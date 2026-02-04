@@ -1,6 +1,7 @@
 package com.donationplatform.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,23 @@ public class DonationService {
         receiptService.generateReceipt(savedDonation);
 
         return savedDonation;
+    }
+
+    public Donation findById(Long id) {
+        return donationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Donation not found"));
+    }
+
+    public List<Donation> findByUser(User user) {
+        return donationRepository.findByUser(user);
+    }
+
+    public long countAll() {
+        return donationRepository.count();
+    }
+
+    public double totalAmount() {
+        Double total = donationRepository.totalAmount();
+        return total != null ? total : 0;
     }
 }
