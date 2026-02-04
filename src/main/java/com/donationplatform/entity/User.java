@@ -1,6 +1,7 @@
 package com.donationplatform.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,10 +17,18 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role; // ADMIN ou DONATEUR
+
+    /* ===== Spring Security fields ===== */
+    private boolean enabled = true;
+
+    private boolean accountNonLocked = true;
+
+    private LocalDateTime lastLogin;
 
     @OneToMany(mappedBy = "user")
     private List<Donation> donations;
@@ -62,5 +71,30 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    /* ===== Security getters/setters ===== */
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean getAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }
