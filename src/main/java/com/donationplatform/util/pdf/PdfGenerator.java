@@ -1,8 +1,7 @@
 package com.donationplatform.util.pdf;
 
-import org.springframework.stereotype.Component;
 import com.donationplatform.entity.Donation;
-
+import org.springframework.stereotype.Component;
 @Component
 public class PdfGenerator {
 

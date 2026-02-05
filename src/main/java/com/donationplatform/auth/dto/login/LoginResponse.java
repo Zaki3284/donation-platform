@@ -1,9 +1,7 @@
 package com.donationplatform.auth.dto.login;
 
 
-import com.donationplatform.auth.dto.UserDto;
 import com.donationplatform.dto.UserDTO;
-
 public class LoginResponse {
     private UserDTO user;
     private String token;
@@ -13,10 +11,6 @@ public class LoginResponse {
     public LoginResponse(UserDTO user, String token) {
         this.user = user;
         this.token = token;
-    }
-
-    public LoginResponse(String token, UserDto userDto) {
-
     }
 
     public UserDTO getUser() {

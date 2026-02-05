@@ -1,11 +1,10 @@
 package com.donationplatform.controller;
 
-import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import com.donationplatform.entity.Receipt;
 import com.donationplatform.service.ReceiptService;
-
 @RestController
 @RequestMapping("/api/receipts")
 @RequiredArgsConstructor

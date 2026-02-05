@@ -6,7 +6,6 @@ import com.donationplatform.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 @Component
 public class DataInitializer {
 

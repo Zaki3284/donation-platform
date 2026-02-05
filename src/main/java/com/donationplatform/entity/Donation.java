@@ -2,7 +2,6 @@ package com.donationplatform.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "donations")
 public class Donation {

@@ -3,7 +3,6 @@ package com.donationplatform.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
 @Entity
 @Table(name = "campaigns")
 public class Campaign {

@@ -1,7 +1,6 @@
 package com.donationplatform.dto;
 
 import java.util.List;
-
 public class StatisticsDTO {
     private Double totalFundsRaised;
     private Integer totalDonationsCount;

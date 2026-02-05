@@ -1,7 +1,6 @@
 package com.donationplatform.dto;
 
 import java.time.LocalDate;
-
 public class CampaignCreateRequest {
     private String title;
     private String description;

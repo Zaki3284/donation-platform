@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
-
 @Service
 public class StatisticsService {
 
