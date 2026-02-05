@@ -1,63 +1,82 @@
 package com.donationplatform.service;
 
+import com.donationplatform.entity.Role;
 import com.donationplatform.entity.User;
 import com.donationplatform.repository.UserRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
+    // ===== CRUD Operations =====
 
-        System.out.println("🔥 loadUserByUsername appelé avec : " + email);
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Utilisateur non trouvé: " + email));
-
-        System.out.println("✅ USER TROUVÉ EN BASE : " + user.getEmail());
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singletonList(
-                        new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
-                )
-        );
-
-
-    }
-
-    // Méthode pour créer un user avec mot de passe encodé
     public User createUser(User user) {
-        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        // Encode password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Set default role if not specified
+        if (user.getRole() == null) {
+            user.setRole(Role.DONATEUR);
+        }
+
         return userRepository.save(user);
     }
 
-    // Bean PasswordEncoder
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElse(null);
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User updateUser(Long id, User updatedUser) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    if (updatedUser.getNom() != null) {
+                        user.setNom(updatedUser.getNom());
+                    }
+                    if (updatedUser.getEmail() != null) {
+                        user.setEmail(updatedUser.getEmail());
+                    }
+                    if (updatedUser.getPassword() != null) {
+                        user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+                    }
+                    if (updatedUser.getRole() != null) {
+                        user.setRole(updatedUser.getRole());
+                    }
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    // ===== Additional Methods =====
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public List<User> getUsersByRole(Role role) {
+        return userRepository.findByRole(role);
     }
 }

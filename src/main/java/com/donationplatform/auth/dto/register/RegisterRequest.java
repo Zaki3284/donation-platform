@@ -1,40 +1,24 @@
 package com.donationplatform.auth.dto.register;
 
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-/**
- * 📝 REGISTER REQUEST
- *
- * Data for creating new user account
- *
- * VALIDATION:
- * - All fields required
- * - Email must be valid format
- * - Password minimum 6 characters
- */
 public class RegisterRequest {
-
-    @NotBlank(message = "Le nom est obligatoire")
-    private String nom;
-
-    @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "Format d'email invalide")
+    private String name;
     private String email;
-
-    @NotBlank(message = "Le mot de passe est obligatoire")
-    @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
     private String password;
 
-    // Getters & Setters
-    public String getNom() {
-        return nom;
+    public RegisterRequest() {}
+
+    public RegisterRequest(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -52,4 +36,7 @@ public class RegisterRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
 }

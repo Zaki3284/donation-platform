@@ -1,38 +1,42 @@
 package com.donationplatform.service;
 
-import java.time.LocalDateTime;
-
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-
-import com.donationplatform.entity.Campaign;
 import com.donationplatform.entity.Donation;
-import com.donationplatform.entity.User;
 import com.donationplatform.repository.DonationRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class DonationService {
 
     private final DonationRepository donationRepository;
-    private final CampaignService campaignService;
-    private final ReceiptService receiptService;
 
-    public Donation donate(User user, Long campaignId, Double amount) {
+    public DonationService(DonationRepository donationRepository) {
+        this.donationRepository = donationRepository;
+    }
 
-        Campaign campaign = campaignService.getById(campaignId);
-        campaignService.checkIfCampaignIsActive(campaign);
+    public Donation createDonation(Donation donation) {
+        if (donation.getDateDonation() == null) {
+            donation.setDateDonation(LocalDateTime.now());
+        }
+        return donationRepository.save(donation);
+    }
 
-        Donation donation = new Donation();
-        donation.setMontant(amount);
-        donation.setDateDonation(LocalDateTime.now());
-        donation.setUser(user);
-        donation.setCampaign(campaign);
+    public List<Donation> getDonationsByUserId(Long userId) {
+        return donationRepository.findByUserId(userId);
+    }
 
-        Donation savedDonation = donationRepository.save(donation);
+    public List<Donation> getDonationsByCampaignId(Long campaignId) {
+        return donationRepository.findByCampaignId(campaignId);
+    }
 
-        receiptService.generateReceipt(savedDonation);
+    public List<Donation> getAllDonations() {
+        return donationRepository.findAll();
+    }
 
-        return savedDonation;
+    public Optional<Donation> getDonationById(Long id) {
+        return donationRepository.findById(id);
     }
 }
