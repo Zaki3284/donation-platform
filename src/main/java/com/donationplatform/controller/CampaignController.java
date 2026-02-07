@@ -66,6 +66,7 @@ public class CampaignController {
             campaign.setDateDebut(request.getStartDate());
             campaign.setDateFin(request.getEndDate());
             campaign.setStatut(CampaignStatus.valueOf(request.getStatus()));
+            campaign.setImageUrl(request.getImageUrl());
 
             Campaign saved = campaignService.createCampaign(campaign);
             return ResponseEntity.ok(convertToDTO(saved));
@@ -99,7 +100,9 @@ public class CampaignController {
         dto.setCurrentAmount(campaign.getMontantCollecte());
         dto.setStartDate(campaign.getDateDebut().toString());
         dto.setEndDate(campaign.getDateFin().toString());
-        dto.setImageUrl("https://via.placeholder.com/400x300"); // Placeholder
+        dto.setImageUrl(campaign.getImageUrl() != null && !campaign.getImageUrl().isBlank()
+                ? campaign.getImageUrl()
+                : "https://via.placeholder.com/400x300");
         dto.setStatus(campaign.getStatut().name());
         return dto;
     }

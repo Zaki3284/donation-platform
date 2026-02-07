@@ -19,12 +19,12 @@ public class DataInitializer {
 
     @PostConstruct
     public void init() {
-        // تحقق إذا كان المستخدم موجود مسبقًا
+
         if (userRepository.findByEmail("admin@example.com").isEmpty()) {
             User admin = new User();
             admin.setNom("Admin");
             admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("admin123")); // كلمة المرور
+            admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRole(Role.ADMIN);
             admin.setEnabled(true);
             admin.setAccountNonLocked(true);

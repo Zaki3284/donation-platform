@@ -27,6 +27,9 @@ public class Campaign {
     @Enumerated(EnumType.STRING)
     private CampaignStatus statut;
 
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "campaign")
     private List<Donation> donations;
 
@@ -97,5 +100,13 @@ public class Campaign {
 
     public void setStatut(CampaignStatus statut) {
         this.statut = statut;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
